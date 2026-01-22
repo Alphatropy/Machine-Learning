@@ -38,5 +38,8 @@ responses in a financial marketing context.
 - Matplotlib / Seaborn
 - Jupyter Notebook
 
+Built to explore how Machine Learning can support investment decisions through risk-based analysis.
+
 > Alphatropy — where intelligence emerges from entropy.
+
 
