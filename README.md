@@ -1,33 +1,24 @@
-# 🚀 Portafolio de Machine Learning & Data Science - Diego Reyes
+## Diego Reyes | Data Scientist & Industrial Engineer
 
-Este repositorio contiene proyectos de analítica avanzada e Inteligencia Artificial aplicados tanto al sector financiero como a la optimización de procesos industriales.
+This repository features advanced analytics and AI projects applied to the financial sector and industrial process optimization.
 
-## 🏭 1. IA Aplicada a Procesos Industriales (Soft Sensors)
-**Contexto:** La medición de variables críticas de calidad en planta dependía de pruebas de laboratorio con tiempos de respuesta de varias horas.
-**Solución:** Diseño de un sensor virtual mediante modelos de regresión para estimar calidad en tiempo real basándose en variables de proceso (Presión, Temperatura, Velocidad).
-**Impacto:** Reducción de desperdicios y optimización de la línea de producción al permitir ajustes en tiempo real.
+### 🏭 1. AI Applied to Industrial Processes (Soft Sensors)
+* **Context:** Critical quality variables in the plant relied on laboratory tests with response times of several hours.
+* **Solution:** Designed a virtual sensor (Soft Sensor) using regression models to estimate quality in real-time based on process variables (Pressure, Temperature, Speed).
+* **Impact:** Waste reduction and production line optimization by enabling real-time process adjustments.
+* **⚠️ Confidentiality Note:** The source code and datasets for this project are the private property of Proquinal S.A. Only methodology and impact are documented here under strict data handling ethical standards.
+* **Tech Stack:** Python, Scikit-Learn, Regression, Process Engineering.
 
-⚠️ **Nota de Confidencialidad:** El código fuente y los datasets de este proyecto son propiedad privada de Proquinal S.A. Se documenta aquí únicamente la metodología y el impacto alcanzado bajo estrictos estándares éticos de manejo de datos.
-* **Tecnologías:** Python, Scikit-Learn, Regresión, Ingeniería de Procesos.
+### 📈 2. S&P 500 Asset Segmentation (K-Means & PCA)
+* **Context:** High volatility and the vast number of assets in the stock market make it difficult to create balanced investment portfolios.
+* **Solution:** Implemented dimensionality reduction (PCA) and clustering (K-Means) techniques to group S&P 500 stocks based on their risk-return behavior.
+* **Impact:** Identified 4 distinct investment profiles, enabling strategic diversification based on data rather than assumptions.
+* **Tech Stack:** Python, Pandas, Scikit-learn, Matplotlib.
 
-## 📈 2. Segmentación de Activos S&P 500 (K-Means & PCA)
-**Contexto:** La alta volatilidad y la cantidad de activos en el mercado bursátil dificultan la creación de portafolios de inversión equilibrados.
-**Solución:** Implementación de técnicas de reducción de dimensionalidad (**PCA**) y clustering (**K-Means**) para agrupar acciones del S&P 500 según su comportamiento de riesgo-retorno.
-**Impacto:** Identificación de 4 perfiles de inversión claros, permitiendo una diversificación estratégica basada en datos y no en suposiciones.
-* **Tecnologías:** Python, Pandas, Scikit-learn, Matplotlib.
-
-## 📞 3. Predicción de Conversión en Telemarketing (Random Forest)
-**Contexto:** Las campañas de telemarketing financiero suelen tener bajas tasas de conversión, desperdiciando recursos en contactos con baja probabilidad de éxito.
-**Solución:** Desarrollo de un modelo de clasificación basado en **Random Forest** para predecir si un cliente contratará un depósito a plazo.
-**Impacto:** El modelo permite priorizar los leads con mayor potencial, aumentando la eficiencia de la campaña y optimizando el tiempo de los analistas.
-* **Tecnologías:** Python, Random Forest, Seaborn (Visualización de datos).
-
-
-## 🛠️ Estructura del Repositorio
-Siguiendo las mejores prácticas de la industria, este repositorio se organiza de la siguiente manera:
-* 📁 `data/`: Datasets utilizados (o links a las fuentes).
-* 📁 `notebooks/`: Cuadernos de Jupyter con el análisis exploratorio (EDA) y modelado.
-* 📄 `requirements.txt`: Lista de librerías necesarias para replicar los experimentos.
-
+### 📞 3. Telemarketing Conversion Prediction (Random Forest)
+* **Context:** Financial telemarketing campaigns often suffer from low conversion rates, wasting resources on low-probability leads.
+* **Solution:** Developed a classification model based on Random Forest to predict if a client will subscribe to a term deposit.
+* **Impact:** The model allows for lead prioritization, increasing campaign efficiency and optimizing analyst time.
+* **Tech Stack:** Python, Random Forest, Seaborn.
 
 📫 **¿Quieres conectar conmigo?** [LinkedIn](https://www.linkedin.com/in/tu-perfil-aqui) | [Email](mailto:tu-correo@ejemplo.com)
