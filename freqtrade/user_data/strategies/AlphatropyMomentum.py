@@ -42,8 +42,21 @@ class AlphatropyMomentum(IStrategy):
 
     INTERFACE_VERSION = 3
 
-    # Spot markets by default. Set to True (and use a futures config) to allow shorts.
+    # Spot markets by default. Automatically enabled for shorts when the config
+    # runs in futures mode (see __init__ below). Can still be forced manually.
     can_short: bool = False
+
+    # Default leverage used by the leverage() callback in futures mode.
+    # Kept conservative; always capped by the exchange maximum for the pair.
+    leverage_num = DecimalParameter(
+        1.0, 5.0, default=3.0, decimals=1, space="buy", optimize=False
+    )
+
+    def __init__(self, config: dict) -> None:
+        super().__init__(config)
+        # Enable short trades automatically on futures configs, keep spot long-only.
+        if self.config.get("trading_mode") == "futures":
+            self.can_short = True
 
     # ------------------------------------------------------------------ #
     # Core configuration                                                 #
@@ -273,3 +286,26 @@ class AlphatropyMomentum(IStrategy):
         # Once above +2%, ratchet the stop up toward break-even and beyond.
         # e.g. at +5% profit, protect roughly +2.5%.
         return max(-0.10, -(current_profit * 0.5))
+
+    # ------------------------------------------------------------------ #
+    # Futures: leverage callback                                         #
+    # ------------------------------------------------------------------ #
+    def leverage(
+        self,
+        pair: str,
+        current_time: datetime,
+        current_rate: float,
+        proposed_leverage: float,
+        max_leverage: float,
+        entry_tag: str | None,
+        side: str,
+        **kwargs,
+    ) -> float:
+        """
+        Return the leverage to use for a new trade (futures only).
+
+        Only invoked when ``trading_mode`` is ``futures``; in spot mode leverage
+        is always 1x and this callback is never called. The requested leverage
+        is capped by ``max_leverage`` (the exchange limit for the pair).
+        """
+        return min(self.leverage_num.value, max_leverage)

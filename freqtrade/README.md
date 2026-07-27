@@ -52,6 +52,28 @@ freqtrade hyperopt --strategy AlphatropyMomentum \
 freqtrade trade --strategy AlphatropyMomentum --dry-run
 ```
 
+## Futures / leverage
+
+The strategy also supports **futures with leverage and short trades**:
+
+- Use `user_data/config.futures.example.json` (`trading_mode: futures`,
+  `margin_mode: isolated`, `:USDT` perpetual pairs).
+- `can_short` is **auto-enabled** when the config runs in futures mode, so the
+  mirrored short logic activates without editing the strategy.
+- The `leverage()` callback returns a conservative default (`leverage_num`,
+  3x) capped by the exchange maximum per pair. Adjust `leverage_num` to taste.
+
+```bash
+# Backtest on futures (download futures data first with --trading-mode futures)
+freqtrade download-data --exchange binance --trading-mode futures \
+    --pairs BTC/USDT:USDT ETH/USDT:USDT --timeframes 1h --days 365
+freqtrade backtesting --strategy AlphatropyMomentum \
+    --config user_data/config.futures.example.json --timeframe 1h
+```
+
+> ⚠️ **Do not** use leverage > 1 with a strategy that hasn't first shown
+> positive results in live spot trading. Start dry-run → spot → futures.
+
 ## Notes
 
 - **Timeframe:** `1h` by default; `startup_candle_count = 200` warms up the
