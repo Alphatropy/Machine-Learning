@@ -29,6 +29,11 @@ Every meaningful threshold is exposed via `IntParameter` / `DecimalParameter` /
 | `buy`  | `ema_fast`, `ema_slow`, `adx_threshold`, `buy_rsi`, `volume_factor`, `require_macd` |
 | `sell` | `sell_rsi`, `use_ema_exit` |
 
+## Quick start
+
+- **Step-by-step Binance setup (Spanish):** see [`SETUP.md`](SETUP.md).
+- **One-command launcher:** `./start.sh` (dry-run) · `./start.sh backtest` · `./start.sh live`.
+
 ## Usage
 
 Assuming Freqtrade is installed and this repo's `freqtrade/` folder is used as
