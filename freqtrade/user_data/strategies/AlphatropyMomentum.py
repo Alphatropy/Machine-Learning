@@ -218,44 +218,39 @@ class AlphatropyMomentum(IStrategy):
         ema_fast = dataframe[f"ema_fast_{self.ema_fast.value}"]
 
         # ---- Exit LONG ----
-        long_exits = [
-            dataframe["volume"] > 0,
-            (
-                # Momentum exhausted: RSI overbought crossing down.
-                qtpylib.crossed_below(dataframe["rsi"], self.sell_rsi.value)
-                # or MACD rolls over.
-                | qtpylib.crossed_below(dataframe["macd"], dataframe["macdsignal"])
-            ),
-        ]
+        # Any single momentum-exhaustion trigger should fire the exit, so the
+        # triggers are OR-ed together and only then AND-ed with the volume gate.
+        # (Previously the use_ema_exit branch was AND-ed as a separate block;
+        # because that block already contained the RSI/MACD crosses, the AND
+        # collapsed back to them and the EMA-break trigger never contributed.)
+        long_triggers = (
+            # Momentum exhausted: RSI overbought crossing down.
+            qtpylib.crossed_below(dataframe["rsi"], self.sell_rsi.value)
+            # or MACD rolls over.
+            | qtpylib.crossed_below(dataframe["macd"], dataframe["macdsignal"])
+        )
         if self.use_ema_exit.value:
             # Short-term trend break as an additional exit trigger.
-            long_exits.append(
-                qtpylib.crossed_below(dataframe["close"], ema_fast)
-                | qtpylib.crossed_below(dataframe["rsi"], self.sell_rsi.value)
-                | qtpylib.crossed_below(dataframe["macd"], dataframe["macdsignal"])
+            long_triggers = long_triggers | qtpylib.crossed_below(
+                dataframe["close"], ema_fast
             )
 
         dataframe.loc[
-            reduce(lambda a, b: a & b, long_exits), ["exit_long", "exit_tag"]
+            (dataframe["volume"] > 0) & long_triggers, ["exit_long", "exit_tag"]
         ] = (1, "momentum_exhausted_long")
 
         # ---- Exit SHORT ----
         if self.can_short:
-            short_exits = [
-                dataframe["volume"] > 0,
-                (
-                    qtpylib.crossed_above(dataframe["rsi"], 100 - self.sell_rsi.value)
-                    | qtpylib.crossed_above(dataframe["macd"], dataframe["macdsignal"])
-                ),
-            ]
+            short_triggers = qtpylib.crossed_above(
+                dataframe["rsi"], 100 - self.sell_rsi.value
+            ) | qtpylib.crossed_above(dataframe["macd"], dataframe["macdsignal"])
             if self.use_ema_exit.value:
-                short_exits.append(
-                    qtpylib.crossed_above(dataframe["close"], ema_fast)
-                    | qtpylib.crossed_above(dataframe["macd"], dataframe["macdsignal"])
+                short_triggers = short_triggers | qtpylib.crossed_above(
+                    dataframe["close"], ema_fast
                 )
 
             dataframe.loc[
-                reduce(lambda a, b: a & b, short_exits), ["exit_short", "exit_tag"]
+                (dataframe["volume"] > 0) & short_triggers, ["exit_short", "exit_tag"]
             ] = (1, "momentum_exhausted_short")
 
         return dataframe
